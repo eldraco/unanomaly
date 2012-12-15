@@ -1,0 +1,35 @@
+body{
+	background: #0081b1;
+}	
+
+#contenedor_principal{
+	font-family: Arial;
+	font-weight: bold;
+}
+
+#contenedor_cuerpo{
+	margin:0 auto;
+	width: 960px;
+}
+
+label.text{
+	text-align: center;
+	width: 100%;
+	padding-bottom: 20px;
+}
+
+#box_drop_zone{
+	background: #fff;
+	padding: 10px;
+}
+
+#drop_zone{
+	border: 5px dashed gray;
+	text-align: center;
+	overflow: hidden;
+	padding: 50px 0;
+}
+
+#drop_zone_text{
+	display: inline;
+}
