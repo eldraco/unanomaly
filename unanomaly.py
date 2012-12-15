@@ -343,9 +343,17 @@ def compute_anomaly(file, threshold):
         if webserver:
             return je.encode(dict)
         else:
-            print 'New threshold: ',
-            threshold = raw_input()
-            compute_anomaly(file,threshold)
+            print 'New threshold (s to show the outliers values): ',
+            n_threshold = raw_input()
+            if n_threshold == 's':
+                print 'Outliers: '
+                for i in dict['Lists']:
+                    print i
+                compute_anomaly(file,threshold)
+            else:
+                threshold = n_threshold
+                compute_anomaly(file,threshold)
+
 
 
 
