@@ -26,8 +26,7 @@
 # standard imports
 #from operator import itemgetter, attrgetter
 import os
-#import pwd
-#import string
+#import pprint
 import sys
 import getopt
 #from datetime import datetime
@@ -37,6 +36,7 @@ import simplejson as json
 from urlparse import urlparse, parse_qs
 from subprocess import Popen
 from subprocess import PIPE
+import re
 
 
 ####################
@@ -45,6 +45,7 @@ from subprocess import PIPE
 debug = 0
 vernum = "0.1"
 verbose = False
+webserver = False
 
 
 #########
@@ -215,18 +216,72 @@ class MyHandler (BaseHTTPServer.BaseHTTPRequestHandler):
 
 
 
+def verify_datafile(file):
+    """ This function verifies the data in the file, looking for missing values or strings."""
+    try:
+
+        clean = True
+
+        f = open(file)
+
+        line = f.readline()
+
+        # the first row is the boss
+        amount_of_columns = len(line.split(','))
+
+        while (line):
+            # Verify that every line has the same amount of columns
+            ac = len(line.split(','))
+            if not ac == amount_of_columns:
+                clean = False
+                return clean
+
+            # Verify that we only have numeric values
+            if not re.match('^[0-9,\.]+$',line):
+                if debug:
+                    print ' > Only numbers are allowed! Check your file'
+                clean = False
+                return clean
+
+
+
+            line = f.readline()
+
+        return clean
+
+
+
+    except Exception as inst:
+        if debug:
+            print 'Some problem in verify_datafile()'
+        print type(inst)     # the exception instance
+        print inst.args      # arguments stored in .args
+        print inst           # __str__ allows args to printed directly
+        x, y = inst          # __getitem__ allows args to be unpacked directly
+        print 'x =', x
+        print 'y =', y
+        exit(-1)
+
 
 def compute_anomaly(file, threshold):
     """ This function computes the anomaly value"""
     try:
         global debug
         global verbose
+        global webserver
 
         je = json.JSONEncoder()
         anomalous_data = ""
 
         if debug:
             print 'Test file: {0}, threshold: {1}'.format(file,threshold)
+
+        # Verify the dataset file
+        if not verify_datafile(file):
+            print 'There is an error in the file. Please check it'
+            # Return an empty json so we can send an error to the web page.
+            return ''
+
 
         # Octave command
         octave_command = ['/usr/bin/octave', '-q', 'test_anomaly.m', file, threshold]
@@ -257,6 +312,9 @@ def compute_anomaly(file, threshold):
         dict = {}
         dict['#Outliers'] = n_outliers
         dict['Lists'] = lists
+
+        if not webserver:
+            print dict
 
         return je.encode(dict)
 
@@ -299,7 +357,7 @@ def main():
         if opt in ("-w", "--webserver"): webserver = True
     try:
         try:
-            if file == "":
+            if file == "" and not webserver:
                 usage()
                 sys.exit(1)
             else:
