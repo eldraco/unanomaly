@@ -4,11 +4,13 @@ clear yval;
 
 arg_list = argv ();
 filename = arg_list{1};
+#filename = 'test3.csv';
 epsilon = str2double(arg_list{2});
+#epsilon = 0.000000000000000000000001;
 
 file = load(filename);
 #file = dlmread('test.csv',',');
-X = file(:,[1,2]);
+X = file(:,:);
 #Xval = file(:,[53,55,56,59,63,67,68,69,70,71,72,74,75,76,78]);
 
 # Solo si hay etiquetas
@@ -32,6 +34,11 @@ pval = multivariateGaussian(X, mu, sigma2);
 #fprintf('Best epsilon found using cross-validation: %e\n', epsilon);
 #fprintf('Best F1 on Cross Validation Set:  %f\n', F1);
 fprintf('# Outliers found: %d\n', sum(p < epsilon));
-for i=1:length(X(p < epsilon,[1,2]))
-    fprintf("%d %d\n",X(p < epsilon,:)(i,:));
+
+for i=1:size(X(p < epsilon,:))(1)
+    %fprintf("%d %d\n",X(p < epsilon,:)(i,:));
+    for j=1:size(X(p < epsilon,:))(2)
+        printf('%d ',X(p < epsilon,:)(i,j));
+    endfor
+    printf('\n');
 endfor
