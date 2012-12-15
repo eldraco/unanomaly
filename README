@@ -1,5 +1,26 @@
 Unanomaly
 ---------
 
-Unanomaly is a generic anomaly finder.
+Unanomaly is a generic data anomaly finder. It reads a multiple-column csv file and finds anomalies in the data. You can select the threshold in order to find more or less anomalies.
+It uses an unsupervised multivariate RBF-based anomaly detection algorithm to analyze all the numeric columns. Based on the threshold, it decides which rows are anomalous and it show them to you. You should analyze the results and validate the output.
+
+Anomaly detection is a difficult task. Unanomaly is meant to facilitate the task of finding anomalies in any numeric dataset. It does not matter if the data represent cpu cycles, temperature, salary, kilometers, people height or distances. It will fit the data to a detection model and will use a threshold to give you the anomalies.
+
+You can use it directly from a console or you can use the internal, eye-candy web page. In the web page you can drag-and-drop csv files and manually select the threshold with a slider.
+
+
+The main features are:
+- It can read csv files
+- It can validate the files to avoid using non-numerical features.
+- It can validate the files to avoid uneven number of columns.
+- It gives you a nice web page to work.
+- The web page let you drag-and-drop the csv files.
+- The web page let you run a slider to choose the threshold. This gives you the opportunity to see the results almost in real-time.
+
+
+Usage:
+
+
+
+
 
