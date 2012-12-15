@@ -51,10 +51,23 @@
 					var sliderValue = $( "#slider" ).slider( "value" );
 					sliderValue = (sliderValue / 100000) + 0.00001;
 					$.get('http://localhost:8000/compute?file='+pathFile+'&threshold='+sliderValue, function(data) {
- 							console.log(data);
+ 							parseOutliers(data);
 						});
 
 				} );
+
+				function parseOutliers(datos){
+					$('#tabla_outliers').remove();
+					$('#box_tabla_outliers').append('<ul id="tabla_outliers"></ul>');
+					var datosJSON = jQuery.parseJSON(datos);
+					var lista = datosJSON.Lists;
+					for(var i=0;i<lista.length;i++){
+						var arrayDatos = lista[i].split(" ");
+						var x = arrayDatos[0];
+						var y = arrayDatos[1];
+						$('#tabla_outliers').append('<li class="data_row_x"><label class="data data_x">'+x+'</label><label class="data data_y">'+y+'</label><li>');	
+					}
+				};
 
 			});
 
@@ -74,6 +87,11 @@
 				<div id="box_seek_bar">
 					<div id="slider"></div>
 				</div> 
+
+				<div id="box_tabla_outliers">
+					<div id="data_column_x" class="data_column">Column X</div>
+					<div id="data_column_y" class="data_column">Column Y</div>
+				</div>
 			</div>	
 		</div>	
 	</body>	

@@ -2,6 +2,10 @@ body{
 	background: #0081b1;
 }	
 
+ul{
+	list-style: none;
+}
+
 #contenedor_principal{
 	font-family: Arial;
 	font-weight: bold;
@@ -32,4 +36,36 @@ label.text{
 
 #drop_zone_text{
 	display: inline;
+}
+
+#box_tabla_outliers{
+	margin: 10px 0;
+    padding: 10px 0;
+    background: #fff;
+}
+
+#data_column_x{
+	float: left;
+}
+
+#data_column_y{
+	float: right;
+}
+
+.data_x{
+	float: left;
+}
+
+.data_y{
+	float: right;	
+}
+
+.data_column, .data{		
+	width: 50%;
+	display:inline;
+	text-align: center;
+}
+
+#box_tabla_outliers{
+	overflow: hidden;
 }
