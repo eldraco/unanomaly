@@ -1,5 +1,5 @@
 #! /usr/bin/env python
-#  Copyright (C) 2009 
+#  Copyright (C) 2012 Sebastian Garcia, Maximo Martinez, Pablo Meyer
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -17,6 +17,9 @@
 #
 #
 # Author:
+#       Sebastian Garcia, eldraco@gmail.com
+#       Maximo Martinez, maximomrtnz@gmail.com
+#       Pablo Meyer, pablitomeyer@gmail.com
 #
 # Changelog
 
@@ -55,12 +58,16 @@ webserver = False
 # Print version information and exit
 def version():
     print "+----------------------------------------------------------------------+"
-    print "| Version "+ vernum +"                                   |"
+    print "| Unanomaly Version "+ vernum +"                                                |"
     print "| This program is free software; you can redistribute it and/or modify |"
     print "| it under the terms of the GNU General Public License as published by |"
     print "| the Free Software Foundation; either version 2 of the License, or    |"
     print "| (at your option) any later version.                                  |"
     print "|                                                                      |"
+    print "|  Authors                                                             |"
+    print "|  Sebastian Garcia, eldraco@gmail.com                                 |"
+    print "|  Maximo Martinez, maximomrtnz@gmail.com                              |"
+    print "|  Pablo Meyer, pablitomeyer@gmail.com                                 |"
     print "+----------------------------------------------------------------------+"
     print
 
@@ -68,12 +75,16 @@ def version():
 # Print help information and exit:
 def usage():
     print "+----------------------------------------------------------------------+"
-    print "| Version "+ vernum +"                                   |"
+    print "| Unanomaly Version "+ vernum +"                                                |"
     print "| This program is free software; you can redistribute it and/or modify |"
     print "| it under the terms of the GNU General Public License as published by |"
     print "| the Free Software Foundation; either version 2 of the License, or    |"
     print "| (at your option) any later version.                                  |"
     print "|                                                                      |"
+    print "|  Authors                                                             |"
+    print "|  Sebastian Garcia, eldraco@gmail.com                                 |"
+    print "|  Maximo Martinez, maximomrtnz@gmail.com                              |"
+    print "|  Pablo Meyer, pablitomeyer@gmail.com                                 |"
     print "+----------------------------------------------------------------------+"
     print "\nusage: %s <options>" % sys.argv[0]
     print "options:"
@@ -81,10 +92,10 @@ def usage():
     print "  -V, --version        Output version information and exit"
     print "  -v, --verbose        Output more information."
     print "  -D, --debug          Debug. In debug mode the statistics run live."
-    print "  -f, --file          Dataset file to analyze."
-    print "  -t, --threshold       Threshold to use."
-    print "  -p, --port       Webserver port"
-    print "  -w, --webserver       Use the Webserver"
+    print "  -f, --file           Dataset file to analyze."
+    print "  -t, --threshold      Threshold to use."
+    print "  -p, --port           Webserver port"
+    print "  -w, --webserver      Use the Webserver"
     print
     sys.exit(1)
 

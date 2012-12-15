@@ -12,13 +12,26 @@ You can use it directly from a console or you can use the internal, eye-candy we
 The main features are:
 - It can read csv files
 - It can validate the files to avoid using non-numerical features.
-- It can validate the files to avoid uneven number of columns.
+- It can validate the files to avoid uneven number of columns in the rows.
 - It gives you a nice web page to work.
 - The web page let you drag-and-drop the csv files.
 - The web page let you run a slider to choose the threshold. This gives you the opportunity to see the results almost in real-time.
 
+About anomaly detection
+-----------------------
+
+
 
 Usage:
+
+./unanomaly.py -w
+
+Start with the webserver running in http://localhost:8000
+
+
+./unanomaly.py -f test.csv -t 0.0001
+
+Use the console to analyze the test.csv file with the threshold 0.0001
 
 
 
