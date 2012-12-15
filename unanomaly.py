@@ -144,15 +144,18 @@ class MyHandler (BaseHTTPServer.BaseHTTPRequestHandler):
             if self.path.rfind('/compute?file=') == 0: # and self.path.find("note=") > 0:
                 if debug:
                     print ' >> Get /compute'
+		
 
-                parameters = parse_qs(self.path)
+                parameters = parse_qs(urlparse(self.path).query)
+		if debug:
+		    print 'Params: {0}'.format(parameters)
                     
                 #file = str(self.path.split('file=')[1].split('&')[0])
                 #threshold = str(self.path.split('threshold=')[1])
 
                 if debug:
                     print 'Web parameters: {0}'.format(parameters)
-                file = parameters['/compute?file'][0]
+                file = parameters['file'][0]
                 threshold = parameters['threshold'][0]
 
                 json_to_send = compute_anomaly(file, threshold)
