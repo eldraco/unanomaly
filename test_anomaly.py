@@ -37,6 +37,7 @@ from urlparse import urlparse, parse_qs
 from subprocess import Popen
 from subprocess import PIPE
 import re
+from os import curdir, sep
 
 
 ####################
