@@ -342,10 +342,10 @@ def compute_anomaly(file, threshold):
 
         if webserver:
             return je.encode(dict)
-        else:
-            print 'New threshold: ',
-            threshold = raw_input()
-            compute_anomaly(file,threshold)
+        #else:
+        #    print 'New threshold: ',
+        #    threshold = raw_input()
+        #    compute_anomaly(file,threshold)
 
 
 
