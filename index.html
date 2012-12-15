@@ -49,9 +49,9 @@
 
 				$( "#slider" ).on( "slidechange", function( event, ui ) {
 					var sliderValue = $( "#slider" ).slider( "value" );
-					$.get('http://localhost:8000/compute?file=test.csv&threshold=0.0001', function(data) {
-  							alert(data);
- 						
+					sliderValue = (sliderValue / 100000) + 0.00001;
+					$.get('http://localhost:8000/compute?file='+pathFile+'&threshold='+sliderValue, function(data) {
+ 							console.log(data);
 						});
 
 				} );
