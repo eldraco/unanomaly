@@ -19,6 +19,7 @@ The main features are:
 
 About anomaly detection
 -----------------------
+To detect anomalies it is necessary to create a model of the normal data.
 
 
 

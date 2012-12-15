@@ -160,7 +160,10 @@ class MyHandler (BaseHTTPServer.BaseHTTPRequestHandler):
 
                 json_to_send = compute_anomaly(file, threshold)
 
-                self.send_response(200)
+                if json_to_send == '':
+                    self.send_response(404)
+                else:
+                    self.send_response(200)
                 self.send_header('Content-Type',        'text/html')
                 self.end_headers()
                 self.wfile.write(json_to_send)
@@ -245,21 +248,25 @@ def verify_datafile(file):
         amount_of_columns = len(line.split(','))
 
         while (line):
+            if debug:
+                print 'Line: {}'.format(line)
+
             # Verify that every line has the same amount of columns
             ac = len(line.split(','))
             if not ac == amount_of_columns:
+                if debug:
+                    print ' > Uneven number of columns in line: {}'.format(line)
                 clean = False
                 return clean
 
             # Verify that we only have numeric values
-            if not re.match('^[0-9,\.]+$',line):
+            #if not re.match('^[0-9,\.]+$',line):
+            if not re.match('^[0-9,\.\-]+$',line):
                 if debug:
+                    print ' > Letters detected in line: {}'.format(line)
                     print ' > Only numbers are allowed! Check your file'
                 clean = False
                 return clean
-
-
-
             line = f.readline()
 
         return clean
@@ -323,13 +330,15 @@ def compute_anomaly(file, threshold):
         n_outliers = str(int(anomalous_data.split('\n')[0].split(':')[1]))
         lists = anomalous_data.split('\n')[1:-1]
 
-        # result = {'#Outliers': 23, 'List':[ 1 , 2 , 3 ]}
         dict = {}
         dict['#Outliers'] = n_outliers
         dict['Lists'] = lists
 
-        if not webserver:
-            print dict
+        if (not webserver and verbose) or debug:
+            print 'Number of outliers: {}'.format(dict['#Outliers'])
+            print 'Outliers: {}'.format(dict['Lists'])
+        elif not webserver:
+            print 'Number of outliers: {}'.format(dict['#Outliers'])
 
         return je.encode(dict)
 
