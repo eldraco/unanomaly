@@ -67,7 +67,7 @@
 
 				$( "#slider" ).on( "slidechange", function( event, ui ) {
 					var sliderValue = $( "#slider" ).slider( "value" );
-					sliderValue = (sliderValue / 100000) + 0.00001;
+					sliderValue = (sliderValue / 1000000000000000000000000000000000) + 0.000000000000000000000001;
 					$.get('http://localhost:8000/compute?file='+pathFile+'&threshold='+sliderValue, function(data,status) {
 							if(status == "success"){
 								oFReader.readAsText(file);
@@ -108,7 +108,7 @@
 
 				
 				function drawCheckBox(lengthColumn){
-					$('#select_column').remove('.check_column');
+					$('.check_column').remove('');
 					for(var i = 0; i<lengthColumn;i++){
 						$('#select_column').append('<input id="check'+i+'" type="checkbox" class="check_column" value="Column'+i+'"">');
 						$('#check'+i).click(function () {
