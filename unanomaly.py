@@ -341,6 +341,8 @@ def compute_anomaly(file, threshold):
             print 'Number of outliers: {}'.format(dict['#Outliers'])
 
         if webserver:
+            if verbose:
+                print 'Number of outliers: {}'.format(dict['#Outliers'])
             return je.encode(dict)
         else:
             print 'New threshold (s to show the outliers values): ',

@@ -17,6 +17,8 @@ The main features are:
 - The web page let you drag-and-drop the csv files.
 - The web page let you run a slider to choose the threshold. This gives you the opportunity to see the results almost in real-time.
 - You can interactively set the threshold in the console to find the best value.
+- It can plot the data in the web page, detectin the anomalies.
+- It shows the anomalies in a web table.
 
 About anomaly detection
 -----------------------
