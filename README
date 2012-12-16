@@ -22,11 +22,11 @@ The main features are:
 
 About anomaly detection
 -----------------------
-To detect anomalies it is necessary to create a model of the normal data.
-
+To detect anomalies it is necessary to create a model of the normal data. These model are usually complex and depends on the data. Unanomaly implements a detection algorithm that does not relay on the data. It creates a model for every feature and then computes the probability of the given data belonging to the distribution.
 
 
 Usage:
+------
 
 ./unanomaly.py -w
 
@@ -40,7 +40,10 @@ Use the console to analyze the test.csv file with the threshold 0.0001
 
 TODO
 ----
-
-
+- Fix the ranges of the graphs.
+- Delete the Plot link.
+- Fix the threshold.
+- Make the threshold automatic. I want the N bigger anomalies. User choose N.
+- Migrate everthing to js.
 
 
