@@ -116,7 +116,33 @@
 										setDatos.push(parseInt(y));
 										listaDatos.push(setDatos);		
 									}
-									plotData(listaDatos,'contenedor');	
+
+
+									for(var j=0;j<dataLocalFile.length;j++){
+										var auxData = dataLocalFile[j].split(',');
+										var setDatos = [];
+										var x = auxData[listaColumna[0]];
+										var y = auxData[listaColumna[1]];
+										setDatos.push(parseInt(x));
+										setDatos.push(parseInt(y));
+										listaDatos.push(setDatos);		
+									}
+
+										var datosJSON = jQuery.parseJSON(outLiers);
+										var lista = datosJSON.Lists;
+										var listaOutliers = [];
+										for(var i=0;i<lista.length;i++){
+											var arrayDatos = lista[i].split(" ");
+											var setDatos = [];
+											var x = arrayDatos[listaColumna[0]];
+											var y = arrayDatos[listaColumna[1]];
+											setDatos.push(parseInt(x));
+											setDatos.push(parseInt(y));
+											listaOutliers.push(setDatos);
+										}
+									
+
+									plotData(listaDatos,listaOutliers,'contenedor');	
 								}
 							}else{
 								listaColumna = [];
@@ -193,9 +219,13 @@
 		                }
 		            },
 				    series: [{
-				            name: '',
+				            name: 'Data',
 				            color: 'rgba(223, 83, 83, .5)',
 				            data: listaDatos
+				            },{
+				            	name: 'Outliers',
+				            	color: 'rgba(119, 152, 191, .5)',
+				            	data: listaOutliers
 				            }]
 				        });
 					};
