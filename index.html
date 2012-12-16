@@ -10,10 +10,23 @@
 			$(document).ready(function(){
 				
 				var pathFile = "";
-				
+				var file;
 				var chart;
+				var outLiers;
+				var dataLocalFile;
+				var listaColumna = [];
 
 				$( "#slider" ).slider();
+
+				var oFReader = new FileReader();
+ 
+				oFReader.onload = function (oFREvent) {
+					dataLocalFile = oFREvent.target.result;
+  					dataLocalFile = dataLocalFile.split("\n");
+  					var lengthColumn = dataLocalFile[0].split(",").length;
+  					drawCheckBox(lengthColumn);
+  					//parseOutliers(outLiers,dataLocalFile);
+				};
 
 				function handleFileSelect(evt) {
 
@@ -27,6 +40,7 @@
     				var output = [];
     				for (var i = 0, f; f = files[i]; i++) {
                   		pathFile = escape(f.name);
+                  		file = f;
     				}
 
     				
@@ -53,14 +67,17 @@
 				$( "#slider" ).on( "slidechange", function( event, ui ) {
 					var sliderValue = $( "#slider" ).slider( "value" );
 					sliderValue = (sliderValue / 100000) + 0.00001;
-					$.get('http://localhost:8000/compute?file='+pathFile+'&threshold='+sliderValue, function(data) {
- 							parseOutliers(data);
+					$.get('http://localhost:8000/compute?file='+pathFile+'&threshold='+sliderValue, function(data,status) {
+							if(status == "success"){
+								oFReader.readAsText(file);
+ 								outLiers = data;
+ 								parseOutliers(data);
+							}
 						});
 
 				} );
 
 				function parseOutliers(datos){
-					
 					var datosJSON = jQuery.parseJSON(datos);
 					var lista = datosJSON.Lists;
 					var listaDatos = [];
@@ -77,21 +94,79 @@
 						  //$('#row_outliers').append('<td class="data_row_x"><label class="data data_x">'+arrayDatos[aux]+'</label></td>');
 						  $('#row_outliers'+ i).append('<td>'+arrayDatos[aux]+'</td>');
 						}
-						var x = arrayDatos[0];
+						/*var x = arrayDatos[0];
 						var y = arrayDatos[1];
 						setDatos.push(parseInt(x));
 						setDatos.push(parseInt(y));
 						listaDatos.push(setDatos);
 						//$('#tabla_outliers').append('<li class="data_row_x"><label class="data data_x">'+x+'</label><label class="data data_y">'+y+'</label><li>');	
+						*/
 					}
-					plotData(listaDatos);
+					//plotData(listaDatos,'container');			
 				};
 
-				function plotData(listaDatos){
+				
+				function drawCheckBox(lengthColumn){
+					$('#select_column').remove('.check_column');
+					for(var i = 0; i<lengthColumn;i++){
+						$('#select_column').append('<input id="check'+i+'" type="checkbox" class="check_column" value="Column'+i+'"">');
+						$('#check'+i).click(function () {
+							if(listaColumna.length < 2){
+								listaColumna.push(parseInt(this.id.replace('check','')));
+								if(listaColumna.length==2){
+									var listaDatos = [];
+									for(var j=0;j<dataLocalFile.length;j++){
+										var auxData = dataLocalFile[j].split(',');
+										var setDatos = [];
+										var x = auxData[listaColumna[0]];
+										var y = auxData[listaColumna[1]];
+										setDatos.push(parseInt(x));
+										setDatos.push(parseInt(y));
+										listaDatos.push(setDatos);		
+									}
 
+
+									for(var j=0;j<dataLocalFile.length;j++){
+										var auxData = dataLocalFile[j].split(',');
+										var setDatos = [];
+										var x = auxData[listaColumna[0]];
+										var y = auxData[listaColumna[1]];
+										setDatos.push(parseInt(x));
+										setDatos.push(parseInt(y));
+										listaDatos.push(setDatos);		
+									}
+
+										var datosJSON = jQuery.parseJSON(outLiers);
+										var lista = datosJSON.Lists;
+										var listaOutliers = [];
+										for(var i=0;i<lista.length;i++){
+											var arrayDatos = lista[i].split(" ");
+											var setDatos = [];
+											var x = arrayDatos[listaColumna[0]];
+											var y = arrayDatos[listaColumna[1]];
+											setDatos.push(parseInt(x));
+											setDatos.push(parseInt(y));
+											listaOutliers.push(setDatos);
+										}
+									
+
+									plotData(listaDatos,listaOutliers,'contenedor');	
+								}
+							}else{
+								listaColumna = [];
+							}
+
+						});
+					}
+				};
+
+				
+
+				function plotData(listaDatos,listaOutliers,divChar){
+					$('#chart_container').append('<div id="'+divChar+'" class="charts" style="width: 100%; height: 400px"></div>');
 					chart = new Highcharts.Chart({
             		chart: {
-                		renderTo: 'container',
+                		renderTo: divChar,
                 		type: 'scatter',
                 		zoomType: 'xy'
             		},
@@ -152,9 +227,13 @@
 		                }
 		            },
 				    series: [{
-				            name: '',
+				            name: 'Data',
 				            color: 'rgba(223, 83, 83, .5)',
 				            data: listaDatos
+				            },{
+				            	name: 'Outliers',
+				            	color: 'rgba(119, 152, 191, .5)',
+				            	data: listaOutliers
 				            }]
 				        });
 					};
@@ -180,9 +259,11 @@
 				<div id="box_seek_bar">
 					<div id="slider"></div>
 				</div> 
-
-				<div id="container" style="width: 100%; height: 400px"></div>
-
+				<div id="select_column">
+					<a href="javascript:void(0)" onclick="plotear()">Plot</a>
+				</div>
+				<div id="chart_container">
+				</div>	
 				<div id="box_tabla_outliers">
 				  <table id="table_id"> </table>
 				</div>

@@ -340,7 +340,21 @@ def compute_anomaly(file, threshold):
         elif not webserver:
             print 'Number of outliers: {}'.format(dict['#Outliers'])
 
-        return je.encode(dict)
+        if webserver:
+            return je.encode(dict)
+        else:
+            print 'New threshold (s to show the outliers values): ',
+            n_threshold = raw_input()
+            if n_threshold == 's':
+                print 'Outliers: '
+                for i in dict['Lists']:
+                    print i
+                compute_anomaly(file,threshold)
+            else:
+                threshold = n_threshold
+                compute_anomaly(file,threshold)
+
+
 
 
     except Exception as inst:
@@ -361,6 +375,7 @@ def main():
     try:
         global debug
         global verbose
+        global webserver
 
         file = ""
         threshold = ""
