@@ -42,8 +42,4 @@ TODO
 ----
 - Fix the ranges of the graphs.
 - Delete the Plot link.
-- Fix the threshold.
 - Migrate everthing to js.
-- Every time you plot, a new div is added...
-
-

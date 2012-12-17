@@ -85,7 +85,7 @@
 					$('#table_id').empty();
 					$('#table_id').append('<tr id="header"></tr>');
 					for (var i=1; i< cant_columnas; i++)
-					  $('#header').append('<td><h4>Column '+ i + '</h4></td>');
+					  $('#header').append('<td><h5>Column '+ i + '</h5></td>');
 					for(var i=0;i<lista.length;i++){
 						$('#table_id').append('<tr id="row_outliers'+i+'"></tr>');
 						var arrayDatos = lista[i].split(" ");
@@ -162,7 +162,8 @@
 
 				
 
-				function plotData(listaDatos,listaOutliers,divChar){
+                function plotData(listaDatos,listaOutliers,divChar){
+                    // Del del content so the next plot is seen right.
 					$('#chart_container').html('');
 					$('#chart_container').append('<div id="'+divChar+'" class="charts" style="width: 100%; height: 400px"></div>');
 					chart = new Highcharts.Chart({
