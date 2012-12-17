@@ -93,7 +93,7 @@ def usage():
     print "  -v, --verbose        Output more information."
     print "  -D, --debug          Debug. In debug mode the statistics run live."
     print "  -f, --file           Dataset file to analyze."
-    print "  -t, --threshold      Threshold to use."
+    print "  -a, --anomalies      The maximum amount of anomalies that you want."
     print "  -p, --port           Webserver port"
     print "  -w, --webserver      Use the Webserver"
     print
@@ -156,9 +156,9 @@ class MyHandler (BaseHTTPServer.BaseHTTPRequestHandler):
                 if debug:
                     print 'Web parameters: {0}'.format(parameters)
                 file = parameters['file'][0]
-                threshold = parameters['threshold'][0]
+                anomalies = parameters['anomalies'][0]
 
-                json_to_send = compute_anomaly(file, threshold)
+                json_to_send = compute_anomaly(file, anomalies)
 
                 if json_to_send == '':
                     self.send_response(404)
@@ -285,7 +285,7 @@ def verify_datafile(file):
         exit(-1)
 
 
-def compute_anomaly(file, threshold):
+def compute_anomaly(file, anomalies):
     """ This function computes the anomaly value"""
     try:
         global debug
@@ -296,7 +296,7 @@ def compute_anomaly(file, threshold):
         anomalous_data = ""
 
         if debug:
-            print 'Test file: {0}, threshold: {1}'.format(file,threshold)
+            print 'Test file: {0}, anomalies: {1}'.format(file,anomalies)
 
         # Verify the dataset file
         if not verify_datafile(file):
@@ -306,7 +306,7 @@ def compute_anomaly(file, threshold):
 
 
         # Octave command
-        octave_command = ['/usr/bin/octave', '-q', 'test_anomaly.m', file, threshold]
+        octave_command = ['/usr/bin/octave', '-q', 'test_anomaly.m', file, anomalies]
         if debug:
             print 'Command: {}'.format(octave_command)
 
@@ -345,16 +345,16 @@ def compute_anomaly(file, threshold):
                 print 'Number of outliers: {}'.format(dict['#Outliers'])
             return je.encode(dict)
         else:
-            print 'New threshold (s to show the outliers values): ',
-            n_threshold = raw_input()
-            if n_threshold == 's':
+            print 'New number of anomalies (s to show the outliers values): ',
+            n_anomalies = raw_input()
+            if n_anomalies == 's':
                 print 'Outliers: '
                 for i in dict['Lists']:
                     print i
-                compute_anomaly(file,threshold)
+                compute_anomaly(file,anomalies)
             else:
-                threshold = n_threshold
-                compute_anomaly(file,threshold)
+                anomalies = n_anomalies
+                compute_anomaly(file,anomalies)
 
 
 
@@ -380,11 +380,11 @@ def main():
         global webserver
 
         file = ""
-        threshold = ""
+        anomalies = ""
         port = 8000
         webserver = ""
 
-        opts, args = getopt.getopt(sys.argv[1:], "VvDhf:t:p:w", ["help","version","verbose","debug","file=","threshold=", "port=", "webserver"])
+        opts, args = getopt.getopt(sys.argv[1:], "VvDhf:t:p:w", ["help","version","verbose","debug","file=","anomalies=", "port=", "webserver"])
     except getopt.GetoptError: usage()
 
     for opt, arg in opts:
@@ -393,7 +393,7 @@ def main():
         if opt in ("-v", "--verbose"): verbose = True
         if opt in ("-D", "--debug"): debug=1
         if opt in ("-f", "--file"): file = str(arg)
-        if opt in ("-t", "--threshold"): threshold = str(arg)
+        if opt in ("-a", "--anomalies"): anomalies = str(arg)
         if opt in ("-p", "--port"): port = int(arg)
         if opt in ("-w", "--webserver"): webserver = True
     try:
@@ -406,7 +406,7 @@ def main():
                 if webserver:
                     createWebServer(port)
                 else:
-                    compute_anomaly(file, threshold)
+                    compute_anomaly(file, anomalies)
 
 
 

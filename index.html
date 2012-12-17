@@ -67,8 +67,7 @@
 
 				$( "#slider" ).on( "slidechange", function( event, ui ) {
 					var sliderValue = $( "#slider" ).slider( "value" );
-					sliderValue = (sliderValue / 1000000000000000000000000000000000) + 0.000000000000000000000001;
-					$.get('http://localhost:8000/compute?file='+pathFile+'&threshold='+sliderValue, function(data,status) {
+					$.get('http://localhost:8000/compute?file='+pathFile+'&anomalies='+sliderValue, function(data,status) {
 							if(status == "success"){
 								oFReader.readAsText(file);
  								outLiers = data;
