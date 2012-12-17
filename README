@@ -23,6 +23,7 @@ The main features are:
 About anomaly detection
 -----------------------
 To detect anomalies it is necessary to create a model of the normal data. These model are usually complex and depends on the data. Unanomaly implements a detection algorithm that does not relay on the data. It creates a model for every feature and then computes the probability of the given data belonging to the distribution.
+The octave code is based on the Machine Learning open course given by Andrew Ng. Thanks a lot Andrew! Without the course this tool would never exist.
 
 
 Usage:
