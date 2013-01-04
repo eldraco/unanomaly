@@ -34,13 +34,22 @@ Usage:
 Start with the webserver running in http://localhost:8000
 
 
-./unanomaly.py -f test.csv -t 0.0001
+./unanomaly.py -f test.csv -a 10
 
-Use the console to analyze the test.csv file with the threshold 0.0001
+Use the console to analyze the test.csv file and find the top 10 anomalies.
+
 
 
 TODO
 ----
+- Print the number of rows in the output of the anomalies. Both in the console and the web page.
+- Find a way to automatically ignore non-numeric columns.
+- Test it on more datasets.
+- Add a legend to the threshold
+- Add a good explanation on the web page.
+- Fix the table to look good.
+-.Create a nice logo?
+- Add a file selector along with the drag and drop option.
 - Fix the ranges of the graphs.
-- Delete the Plot link.
 - Migrate everthing to js.
+- After seeing the plot, I can not longer use the threshold slider. Fix.

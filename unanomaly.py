@@ -248,7 +248,7 @@ def verify_datafile(file):
 
         while (line):
             if debug:
-                print 'Line: {}'.format(line)
+                print 'Line: {}'.format(line),
 
             # Verify that every line has the same amount of columns
             ac = len(line.split(','))
@@ -344,7 +344,7 @@ def compute_anomaly(file, anomalies):
                 print 'Number of outliers: {}'.format(dict['#Outliers'])
             return je.encode(dict)
         else:
-            print 'New number of anomalies (s to show the outliers values): ',
+            print 'New number of anomalies (s to show the outliers values, or CTRL-C to exit): ',
             n_anomalies = raw_input()
             if n_anomalies == 's':
                 print 'Outliers: '
@@ -379,11 +379,11 @@ def main():
         global webserver
 
         file = ""
-        anomalies = ""
+        anomalies = '1'
         port = 8000
         webserver = ""
 
-        opts, args = getopt.getopt(sys.argv[1:], "VvDhf:t:p:w", ["help","version","verbose","debug","file=","anomalies=", "port=", "webserver"])
+        opts, args = getopt.getopt(sys.argv[1:], "VvDhf:a:p:w", ["help","version","verbose","debug","file=","anomalies=", "port=", "webserver"])
     except getopt.GetoptError: usage()
 
     for opt, arg in opts:
@@ -400,12 +400,10 @@ def main():
             if file == "" and not webserver:
                 usage()
                 sys.exit(1)
-            else:
-
-                if webserver:
-                    createWebServer(port)
-                else:
-                    compute_anomaly(file, anomalies)
+            elif webserver:
+                createWebServer(port)
+            elif file != "":
+                compute_anomaly(file, anomalies)
 
 
 
