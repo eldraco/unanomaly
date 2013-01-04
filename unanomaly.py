@@ -112,8 +112,7 @@ def createWebServer(port):
         # Get the socket
         sa = httpd.socket.getsockname()
 
-        if debug:
-            print "Serving HTTP on", sa[0], "port", sa[1], "..."
+        print "Serving HTTP on http://" + sa[0] + ":" + str(sa[1])
 
         # Run forever
         httpd.serve_forever()
