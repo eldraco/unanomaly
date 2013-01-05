@@ -39,10 +39,54 @@ Start with the webserver running in http://localhost:8000
 Use the console to analyze the test.csv file and find the top 10 anomalies.
 
 
+Example output in console
+-------------------------
+
+./unanomaly.py -a 10 -f test3.csv 
+Number of outliers: 9
+Enter a new number of anomalies (s to show the outliers values, or CTRL-C to exit):  5
+Number of outliers: 5
+Enter a new number of anomalies (s to show the outliers values, or CTRL-C to exit):  s
+Outliers: 
+5900 5427 638 925 26 16 21 16 46 233 231 233 
+5904 5431 794 809 26 14 19 16 45 234 232 233 
+5908 5435 987 686 31 15 20 16 44 232 231 232 
+5931 5456 442 513 28 21 25 16 41 233 232 232 
+7652 7063 243 249 37 18 21 16 -99 239 238 239 
+Number of outliers: 5
+Enter a new number of anomalies (s to show the outliers values, or CTRL-C to exit):  ^C
+
+
+./unanomaly.py -h
++----------------------------------------------------------------------+
+| Unanomaly Version 0.1                                                |
+| This program is free software; you can redistribute it and/or modify |
+| it under the terms of the GNU General Public License as published by |
+| the Free Software Foundation; either version 2 of the License, or    |
+| (at your option) any later version.                                  |
+|                                                                      |
+|  Authors                                                             |
+|  Sebastian Garcia, eldraco@gmail.com                                 |
+|  Maximo Martinez, maximomrtnz@gmail.com                              |
+|  Pablo Meyer, pablitomeyer@gmail.com                                 |
++----------------------------------------------------------------------+
+
+usage: ./unanomaly.py <options>
+options:
+  -h, --help           Show this help message and exit
+  -V, --version        Output version information and exit
+  -v, --verbose        Output more information.
+  -D, --debug          Debug. In debug mode the statistics run live.
+  -f, --file           CSV dataset file to analyze.
+  -a, --anomalies      The maximum amount of anomalies that you want.
+  -p, --port           Webserver port
+  -w, --webserver      Use the Webserver
+
+
 
 TODO
 ----
-- Print the number of rows in the output of the anomalies. Both in the console and the web page.
+- Print the number of each row in the output of the anomalies. Both in the console and the web page.
 - Find a way to automatically ignore non-numeric columns.
 - Test it on more datasets.
 - Add a legend to the threshold
@@ -52,4 +96,7 @@ TODO
 - Add a file selector along with the drag and drop option.
 - Fix the ranges of the graphs.
 - Migrate everthing to js.
-- After seeing the plot, I can not longer use the threshold slider. Fix.
+
+Special Thanks
+--------------
+To Andrew Ng for his amazing ML course. This program uses part of their original octave code.

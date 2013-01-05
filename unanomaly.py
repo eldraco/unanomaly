@@ -92,7 +92,7 @@ def usage():
     print "  -V, --version        Output version information and exit"
     print "  -v, --verbose        Output more information."
     print "  -D, --debug          Debug. In debug mode the statistics run live."
-    print "  -f, --file           Dataset file to analyze."
+    print "  -f, --file           CSV dataset file to analyze."
     print "  -a, --anomalies      The maximum amount of anomalies that you want."
     print "  -p, --port           Webserver port"
     print "  -w, --webserver      Use the Webserver"
@@ -344,7 +344,7 @@ def compute_anomaly(file, anomalies):
                 print 'Number of outliers: {}'.format(dict['#Outliers'])
             return je.encode(dict)
         else:
-            print 'New number of anomalies (s to show the outliers values, or CTRL-C to exit): ',
+            print 'Enter a new number of anomalies (s to show the outliers values, or CTRL-C to exit): ',
             n_anomalies = raw_input()
             if n_anomalies == 's':
                 print 'Outliers: '

@@ -9,11 +9,13 @@ ul{
 #contenedor_principal{
 	font-family: Arial;
 	font-weight: bold;
+    color: white;
 }
 
 #contenedor_cuerpo{
 	margin:0 auto;
 	width: 960px;
+    color: black;
 }
 
 label.text{
