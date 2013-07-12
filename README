@@ -11,8 +11,7 @@ You can use it directly from a console or you can use the internal, eye-candy we
 
 The main features are:
 - It can read csv files
-- It can validate the files to avoid using non-numerical features.
-- It can validate the files to avoid uneven number of columns in the rows.
+- It can validate the files to avoid using non-numerical features.  - It can validate the files to avoid uneven number of columns in the rows.
 - It gives you a nice web page to work.
 - The web page let you drag-and-drop the csv files.
 - The web page let you run a slider to choose the threshold. This gives you the opportunity to see the results almost in real-time.
@@ -96,6 +95,7 @@ TODO
 - Add a file selector along with the drag and drop option.
 - Fix the ranges of the graphs.
 - Migrate everthing to js.
+- The file is not being uploaded through the Internet, but read from the hard disk!
 
 Special Thanks
 --------------
