@@ -96,6 +96,7 @@ TODO
 - Fix the ranges of the graphs.
 - Migrate everthing to js.
 - The file is not being uploaded through the Internet, but read from the hard disk!
+- Put the project on openshift or other online service so anybody can use it.
 
 Special Thanks
 --------------
