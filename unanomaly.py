@@ -29,11 +29,8 @@
 # standard imports
 #from operator import itemgetter, attrgetter
 import os
-#import pprint
 import sys
 import getopt
-#from datetime import datetime
-#from time import mktime
 import BaseHTTPServer
 import simplejson as json
 from urlparse import urlparse, parse_qs
@@ -47,7 +44,7 @@ from os import curdir, sep
 # Global Variables
 
 debug = 0
-vernum = "0.1"
+vernum = "0.2"
 verbose = False
 webserver = False
 
@@ -137,17 +134,22 @@ class MyHandler (BaseHTTPServer.BaseHTTPRequestHandler):
             if debug:
                 print ' >> Path: {0}'.format(self.path)
 
+            # If the GET is empty, give the index.html
+            if self.path == "/":
+                self.path = "/index.html"
+
+
             # Return the basic info about the MACs since last request
             # Get a MAC and add a note in the database 
             # /compute?file=test.csv&threshold=0.0001
             if self.path.rfind('/compute?file=') == 0: # and self.path.find("note=") > 0:
                 if debug:
                     print ' >> Get /compute'
-		
 
                 parameters = parse_qs(urlparse(self.path).query)
-		if debug:
-		    print 'Params: {0}'.format(parameters)
+
+                if debug:
+                    print 'Params: {0}'.format(parameters)
                     
                 #file = str(self.path.split('file=')[1].split('&')[0])
                 #threshold = str(self.path.split('threshold=')[1])
@@ -269,8 +271,6 @@ def verify_datafile(file):
             line = f.readline()
 
         return clean
-
-
 
     except Exception as inst:
         if debug:
