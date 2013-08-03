@@ -235,52 +235,97 @@ class MyHandler (BaseHTTPServer.BaseHTTPRequestHandler):
 
 
 
-def verify_datafile(file):
-    """ This function verifies the data in the file, looking for missing values or strings."""
+def preprocess_datafile(file, newfile):
+    """ This function creates a new temp file to copy and verify the original data. It looking for missing values."""
     try:
 
-        clean = True
-
         f = open(file)
+        nf = open(newfile,'w')
 
+        # Here we should read the columns names
+        first_line = f.readline()
+        column_names = first_line.split(',')
+        amount_of_columns_names = len(column_names)
+
+        # First real line with data
         line = f.readline()
+        columns = line.split(',')
+        amount_of_columns = len(columns)
 
-        # the first row is the boss
-        amount_of_columns = len(line.split(','))
+        # Check that the first line and second line have the same amount of columns
+        if amount_of_columns_names != amount_of_columns:
+            if debug:
+                print 'Different amount of columns'
+            return False
+
+        not_str_columns = []
+        # Which columns are not numbers?
+        i = 0
+        while i < amount_of_columns:
+            try:
+                new_column = float(columns[i])
+            except ValueError:
+                #if debug:
+                #    print 'Not an str column'
+                not_str_columns.append(i)
+            i += 1
+
+        if debug:
+            print 'List of numers of not int columns to ignore: {}'.format(not_str_columns)
 
         while (line):
             if debug:
                 print 'Line: {}'.format(line),
 
+            columns = line.split(',')
+            amount_of_columns = len(columns)
+
             # Verify that every line has the same amount of columns
-            ac = len(line.split(','))
+            ac = len(columns)
+
             if not ac == amount_of_columns:
                 if debug:
                     print ' > Uneven number of columns in line: {}'.format(line)
-                clean = False
-                return clean
+                return False
 
-            # Verify that we only have numeric values
-            #if not re.match('^[0-9,\.]+$',line):
-            if not re.match('^[0-9,\.\-]+$',line):
-                if debug:
-                    print ' > Letters detected in line: {}'.format(line)
-                    print ' > Only numbers are allowed! Check your file'
-                clean = False
-                return clean
+            j = 0
+
+            temp_newline = ""
+            while j < amount_of_columns:
+                try:
+                    not_str_columns.index(j)
+                    # We should ignore this column
+                    if debug:
+                        print 'We should ignore column {0} with data {1}'.format(j,columns[j])
+                    j += 1
+                    continue
+
+                except ValueError:
+                    # We should use this column
+                    if debug:
+                        print 'Use column {0} with data {1}'.format(j,columns[j])
+                    temp_newline = temp_newline + ',' + columns[j]
+
+                j += 1
+
+            # remove the first ,
+            newline = temp_newline[1:]
+            nf.write(newline)
+            if debug:
+                print newline
+
             line = f.readline()
 
-        return clean
+        nf.close()
+
+        return True
 
     except Exception as inst:
         if debug:
-            print 'Some problem in verify_datafile()'
+            print 'Some problem in preprocess_datafile()'
         print type(inst)     # the exception instance
         print inst.args      # arguments stored in .args
         print inst           # __str__ allows args to printed directly
-        x, y = inst          # __getitem__ allows args to be unpacked directly
-        print 'x =', x
-        print 'y =', y
         exit(-1)
 
 
@@ -298,10 +343,10 @@ def compute_anomaly(file, anomalies):
             print 'Test file: {0}, anomalies: {1}'.format(file,anomalies)
 
         # Verify the dataset file
-        if not verify_datafile(file):
-            print 'There is an error in the file. Please check it'
+        #if not verify_datafile(file):
+            #print 'There is an error in the file. Please check it'
             # Return an empty json so we can send an error to the web page.
-            return ''
+            #return ''
 
 
         # Octave command
@@ -403,8 +448,10 @@ def main():
             elif webserver:
                 createWebServer(port)
             elif file != "":
-                compute_anomaly(file, anomalies)
-
+                newfile = '/tmp/65432wdfv.tmp'
+                if preprocess_datafile(file,newfile):
+                    compute_anomaly(newfile, anomalies)
+                os.rm(newfile)
 
 
         except Exception, e:
