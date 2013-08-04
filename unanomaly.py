@@ -248,7 +248,7 @@ def preprocess_datafile(file, newfile):
         amount_of_columns_names = len(column_names)
 
         # First real line with data
-        line = f.readline()
+        line = f.readline().replace(' ','')
         columns = line.split(',')
         amount_of_columns = len(columns)
 
@@ -310,11 +310,17 @@ def preprocess_datafile(file, newfile):
 
             # remove the first ,
             newline = temp_newline[1:]
-            nf.write(newline)
+
+            # This lines should not have a number... but sometimes the dataset is so screwed that some lines had letters...
+            if re.match('^[0-9,\.\-]+$',newline):
+                nf.write(newline)
+            else:
+                if debug:
+                    print 'Ignore this line because it had non-numbers : {}'.format(newline)
             if debug:
                 print newline
 
-            line = f.readline()
+            line = f.readline().replace(' ','')
 
         nf.close()
 
@@ -368,11 +374,16 @@ def compute_anomaly(file, anomalies):
             print 'y =', y
             exit(-1)
 
-
         # Converto to json
+        if not anomalous_data:
+            print 'Some problem in octave.'
+            sys.exit(-1)
 
         n_outliers = str(int(anomalous_data.split('\n')[0].split(':')[1]))
         lists = anomalous_data.split('\n')[1:-1]
+
+        if debug:
+            print 'Get the outliers'
 
         dict = {}
         dict['#Outliers'] = n_outliers
