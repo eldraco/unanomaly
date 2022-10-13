@@ -1,28 +1,29 @@
 Unanomaly
 ---------
 
-Unanomaly is a generic data anomaly finder. It reads a multiple-column csv file and finds anomalies in the data. You can select the threshold in order to find more or less anomalies.
+Unanomaly is a generic data anomaly finder. It reads a multiple-column csv file and finds anomalies in the data. You can select the threshold in order to find more or fewer anomalies.
 It uses an unsupervised multivariate RBF-based anomaly detection algorithm to analyze all the numeric columns. Based on the threshold, it decides which rows are anomalous and it show them to you. You should analyze the results and validate the output.
 
-Anomaly detection is a difficult task. Unanomaly is meant to facilitate the task of finding anomalies in any numeric dataset. It does not matter if the data represent cpu cycles, temperature, salary, kilometers, people height or distances. It will fit the data to a detection model and will use a threshold to give you the anomalies.
+Anomaly detection is a difficult task. Unanomaly is meant to facilitate the task of finding anomalies in any numeric dataset. It does not matter if the data represents cpu cycles, temperature, salary, kilometers, people height or distances. It will fit the data to a detection model and will use a threshold to give you the anomalies.
 
 You can use it directly from a console or you can use the internal, eye-candy web page. In the web page you can drag-and-drop csv files and manually select the threshold with a slider.
 
 
 The main features are:
-- It can read csv files
-- It can validate the files to avoid using non-numerical features.  - It can validate the files to avoid uneven number of columns in the rows.
-- It gives you a nice web page to work. (not working on linux-chrome)
+- It can read csv files.
+- It can validate the files to avoid using non-numerical features.  
+- It can validate the files to avoid uneven number of columns in the rows.
+- It gives you a nice web page to work (not working on linux-chrome).
 - The web page let you drag-and-drop the csv files.
 - The web page let you run a slider to choose the threshold. This gives you the opportunity to see the results almost in real-time.
 - You can interactively set the threshold in the console to find the best value.
-- It can plot the data in the web page, detectin the anomalies.
+- It can plot the data in the web page, detecting the anomalies.
 - It shows the anomalies in a web table.
 
 About anomaly detection
 -----------------------
-To detect anomalies it is necessary to create a model of the normal data. These model are usually complex and depends on the data. Unanomaly implements a detection algorithm that does not relay on the data. It creates a model for every feature and then computes the probability of the given data belonging to the distribution.
-The octave code is based on the Machine Learning open course given by Andrew Ng. Thanks a lot Andrew! Without the course this tool would never exist.
+To detect anomalies it is necessary to create a model of the normal data. These model are usually complex and depends on the data. Unanomaly implements a detection algorithm that does not rely on the data. It creates a model for every feature and then computes the probability of the given data belonging to the distribution.
+The octave code is based on the Machine Learning open course given by Andrew Ng. Thanks a lot Andrew! Without that course this tool would never exist.
 
 
 Usage:
@@ -88,13 +89,13 @@ TODO
 - Print the number of each row in the output of the anomalies. Both in the console and the web page.
 - Find a way to automatically ignore non-numeric columns.
 - Test it on more datasets.
-- Add a legend to the threshold
+- Add a legend to the threshold.
 - Add a good explanation on the web page.
 - Fix the table to look good.
 -.Create a nice logo?
-- Add a file selector along with the drag and drop option. (so chrome on linux can work)
+- Add a file selector along with the drag and drop option (so that chrome on linux can work).
 - Fix the ranges of the graphs.
-- Migrate everthing to js.
+- Migrate everthing to JS.
 - The file is not being uploaded through the Internet, but read from the hard disk!
 - Put the project on openshift or other online service so anybody can use it.
 
